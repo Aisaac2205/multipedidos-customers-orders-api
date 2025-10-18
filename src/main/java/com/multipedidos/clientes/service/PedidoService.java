@@ -6,9 +6,9 @@ import com.multipedidos.clientes.dto.ProductoDTO;
 import com.multipedidos.clientes.model.Pedido;
 import com.multipedidos.clientes.model.Producto;
 import com.multipedidos.clientes.repository.PedidoRepository;
-import com.multipedidos.clientes.exceptions.DatosInvalidosException;
-import com.multipedidos.clientes.exceptions.RecursoNoEncontradoException;
-import com.multipedidos.clientes.utils.CalculadoraDescuentos;
+import com.multipedidos.common.exceptions.DatosInvalidosException;
+import com.multipedidos.common.exceptions.RecursoNoEncontradoException;
+import com.multipedidos.common.utils.CalculadoraDescuentos;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -95,7 +95,7 @@ public class PedidoService {
     public PedidoDTO obtenerPedido(Long id) {
         log.info("Buscando pedido con ID: {}", id);
         Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Pedido con ID " + id + " no encontrado"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Pedido", id));
         return mapearADTO(pedido);
     }
 

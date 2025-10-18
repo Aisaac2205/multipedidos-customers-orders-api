@@ -1,7 +1,7 @@
 package com.multipedidos.clientes.config;
 
-import com.multipedidos.clientes.exceptions.DatosInvalidosException;
-import com.multipedidos.clientes.exceptions.RecursoNoEncontradoException;
+import com.multipedidos.common.exceptions.DatosInvalidosException;
+import com.multipedidos.common.exceptions.RecursoNoEncontradoException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -60,14 +60,12 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Librería Común - Temporalmente comentada para Railway -->
-        <!--
+        <!-- Librería Común -->
         <dependency>
             <groupId>com.multipedidos</groupId>
             <artifactId>common-library</artifactId>
             <version>1.0.0</version>
         </dependency>
-        -->
 
         <!-- SpringDoc OpenAPI (Swagger) -->
         <dependency>

@@ -4,9 +4,9 @@ import com.multipedidos.clientes.dto.ClienteDTO;
 import com.multipedidos.clientes.dto.ClienteInputDTO;
 import com.multipedidos.clientes.model.Cliente;
 import com.multipedidos.clientes.repository.ClienteRepository;
-import com.multipedidos.clientes.exceptions.DatosInvalidosException;
-import com.multipedidos.clientes.exceptions.RecursoNoEncontradoException;
-import com.multipedidos.clientes.utils.ValidadorCodigos;
+import com.multipedidos.common.exceptions.DatosInvalidosException;
+import com.multipedidos.common.exceptions.RecursoNoEncontradoException;
+import com.multipedidos.common.utils.ValidadorCodigos;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class ClienteService {
         log.info("Creando nuevo cliente: {}", input.getNombre());
 
         // Validar email
-        if (!ValidadorCodigos.esEmailValido(input.getCorreo())) {
+        if (!ValidadorCodigos.validarEmail(input.getCorreo())) {
             throw new DatosInvalidosException("El formato del correo es inválido");
         }
 
@@ -71,7 +71,7 @@ public class ClienteService {
     public ClienteDTO obtenerCliente(Long id) {
         log.info("Buscando cliente con ID: {}", id);
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Cliente con ID " + id + " no encontrado"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Cliente", id));
         return mapearADTO(cliente);
     }
 
