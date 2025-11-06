@@ -19,7 +19,7 @@ import java.util.List;
  * Controlador REST para gestión de pedidos.
  */
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("/api/pedidos")
 @RequiredArgsConstructor
 @Tag(name = "Pedidos", description = "API para gestión de pedidos")
 public class PedidoController {
@@ -54,6 +54,17 @@ public class PedidoController {
     public ResponseEntity<PedidoDTO> obtenerPedido(@PathVariable Long id) {
         PedidoDTO pedido = pedidoService.obtenerPedido(id);
         return ResponseEntity.ok(pedido);
+    }
+
+    @GetMapping("/cliente/{clienteId}")
+    @Operation(summary = "Obtener pedidos por cliente", description = "Obtiene todos los pedidos de un cliente específico")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de pedidos obtenida correctamente"),
+            @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
+    })
+    public ResponseEntity<List<PedidoDTO>> obtenerPedidosPorCliente(@PathVariable Long clienteId) {
+        List<PedidoDTO> pedidos = pedidoService.listarPedidosPorCliente(clienteId);
+        return ResponseEntity.ok(pedidos);
     }
 }
 
