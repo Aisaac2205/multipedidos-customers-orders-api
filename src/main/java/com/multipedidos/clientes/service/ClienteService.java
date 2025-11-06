@@ -76,9 +76,63 @@ public class ClienteService {
     }
 
     /**
+     * Actualiza un cliente existente.
+     */
+    @Transactional
+    public ClienteDTO actualizarCliente(Long id, ClienteInputDTO input) {
+        log.info("Actualizando cliente con ID: {}", id);
+
+        // Verificar que el cliente existe
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Cliente", id));
+
+        // Validar email
+        if (!ValidadorCodigos.validarEmail(input.getCorreo())) {
+            throw new DatosInvalidosException("El formato del correo es inválido");
+        }
+
+        // Verificar que el correo no esté registrado por otro cliente
+        if (!cliente.getCorreo().equals(input.getCorreo()) && 
+            clienteRepository.existsByCorreo(input.getCorreo())) {
+            throw new DatosInvalidosException("Ya existe un cliente con ese correo");
+        }
+
+        // Actualizar datos
+        cliente.setNombre(input.getNombre());
+        cliente.setCorreo(input.getCorreo());
+
+        Cliente actualizado = clienteRepository.save(cliente);
+        log.info("Cliente actualizado con ID: {}", actualizado.getId());
+
+        return mapearADTO(actualizado);
+    }
+
+    /**
+     * Elimina un cliente.
+     */
+    @Transactional
+    public void eliminarCliente(Long id) {
+        log.info("Eliminando cliente con ID: {}", id);
+
+        // Verificar que el cliente existe
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Cliente", id));
+
+        // Verificar si tiene pedidos asociados
+        if (clienteRepository.countPedidosByClienteId(id) > 0) {
+            throw new DatosInvalidosException("No se puede eliminar el cliente porque tiene pedidos asociados");
+        }
+
+        clienteRepository.delete(cliente);
+        log.info("Cliente eliminado con ID: {}", id);
+    }
+
+    /**
      * Verifica si un cliente existe.
      */
+    @Transactional(readOnly = true)
     public boolean existeCliente(Long id) {
+        log.info("Verificando existencia de cliente con ID: {}", id);
         return clienteRepository.existsById(id);
     }
 
