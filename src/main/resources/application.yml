@@ -3,9 +3,9 @@ spring:
     name: microservice-clientes-pedidos
   
   datasource:
-    url: jdbc:mysql://maglev.proxy.rlwy.net:20814/railway?allowPublicKeyRetrieval=true&useSSL=false
-    username: root
-    password: DXVDvEZfttKEFEWNridkoHShAOiePIzM
+    url: ${DB_URL:jdbc:mysql://localhost:3306/clientes_pedidos?allowPublicKeyRetrieval=true&useSSL=false}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:changeme}
     driver-class-name: com.mysql.cj.jdbc.Driver
   
   jpa:
@@ -19,7 +19,7 @@ spring:
     open-in-view: false
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
   servlet:
     context-path: /
 
